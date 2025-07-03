@@ -14,32 +14,112 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+        
+        /* Enhanced Navigation */
         .nav-link {
-            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border-bottom: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            width: 100%;
+        }
+        
         .nav-link:hover, .nav-link.active {
-            color: #3b82f6; /* blue-500 */
-        }
-        html:not(.dark) .nav-link.active {
-             border-bottom-color: #0B6BCB;
-        }
-        html.dark .nav-link.active {
-             border-bottom-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-1px);
         }
 
+        /* Enhanced Cards */
         .section-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
         }
+        
         .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.07);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(59, 130, 246, 0.2);
         }
+        
+        html.dark .section-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        /* Enhanced Hero Section */
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hero-text-gradient {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4, #8b5cf6);
+            background-size: 200% 200%;
+            animation: textGradientShift 4s ease infinite;
+        }
+        
+        @keyframes textGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Enhanced CTA Button */
+        .cta-button {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Enhanced Chart Container */
         .chart-container {
             position: relative;
             margin: auto;
@@ -47,48 +127,213 @@
             max-height: 450px;
             width: 100%;
             max-width: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
+        html.dark .chart-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Enhanced Matrix Quadrants */
         .matrix-quadrant {
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .matrix-quadrant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent, rgba(59, 130, 246, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .matrix-quadrant:hover::before,
+        .matrix-quadrant.active::before {
+            opacity: 1;
+        }
+        
         .matrix-quadrant.active {
             transform: scale(1.05);
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            border-color: #3b82f6;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            z-index: 10;
         }
+
+        /* Enhanced GTD Steps */
         .gtd-step {
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .gtd-step::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(6, 182, 212, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gtd-step:hover::before,
+        .gtd-step.active::before {
+            opacity: 1;
+        }
+        
         .gtd-step.active {
-            transform: translateY(-4px);
-            box-shadow: 0 4px 12px rgba(11, 107, 203, 0.15);
-        }
-        html:not(.dark) .gtd-step.active {
-            background-color: #E7F0F9;
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(11, 107, 203, 0.2);
             border-color: #0B6BCB;
         }
+        
         html.dark .gtd-step.active {
-            background-color: #374151; /* gray-700 */
-            border-color: #3b82f6; /* blue-500 */
+            background-color: #374151;
+            border-color: #3b82f6;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
         }
+        
         .gtd-icon {
             width: 2.5rem;
             height: 2.5rem;
             color: #0B6BCB;
+            transition: all 0.3s ease;
         }
+        
+        .gtd-step:hover .gtd-icon,
+        .gtd-step.active .gtd-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
         html.dark .gtd-icon {
             color: #3b82f6;
         }
-        .pricing-btn.active {
-            background-color: #2563EB; /* blue-600 */
-            color: white;
+
+        /* Enhanced Pricing Buttons */
+        .pricing-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
-        html:not(.dark) .pricing-btn.active {
-            background-color: #0B6BCB;
+        
+        .pricing-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .pricing-btn.active::before {
+            opacity: 1;
+        }
+        
+        .pricing-btn.active {
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Scroll Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Enhanced Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .section-card:hover {
+                transform: translateY(-4px) scale(1.01);
+            }
+            
+            .gtd-step.active {
+                transform: translateY(-3px) scale(1.02);
+            }
+            
+            .matrix-quadrant.active {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Focus States */
+        .focus-ring:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Smooth Transitions for Theme Toggle */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
     </style>
 </head>
-<body class="antialiased bg-[#FDFBF8] text-gray-700 dark:bg-gray-900 dark:text-gray-300 transition-colors duration-300">
+<body class="antialiased bg-[#FDFBF8] text-gray-700 dark:bg-gray-900 dark:text-gray-300">
+
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
 
     <!-- Script para aplicar o tema (claro/escuro) no carregamento inicial para evitar flash -->
     <script>
@@ -99,26 +344,26 @@
         }
     </script>
 
-    <header id="header" class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-200/50 dark:border-gray-700/50">
+    <header id="header" class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sticky top-0 z-50 shadow-lg border-b border-gray-200/50 dark:border-gray-700/50">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <span class="text-2xl font-bold text-gray-800 dark:text-white">Aura</span>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">Aura</span>
                 </div>
                 <div class="hidden md:flex md:items-center md:space-x-6 lg:space-x-8">
-                    <a href="#estrategia" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1">Estratégia</a>
-                    <a href="#experiencia" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1">A Experiência</a>
-                    <a href="#arquitetura" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1">Arquitetura</a>
-                    <a href="#futuro" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1">O Futuro</a>
+                    <a href="#estrategia" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1 focus-ring">Estratégia</a>
+                    <a href="#experiencia" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1 focus-ring">A Experiência</a>
+                    <a href="#arquitetura" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1 focus-ring">Arquitetura</a>
+                    <a href="#futuro" class="nav-link font-medium text-gray-600 dark:text-gray-300 pb-1 focus-ring">O Futuro</a>
                 </div>
                 <div class="flex items-center">
                     <!-- Botão de alternância de tema -->
-                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+                    <button id="theme-toggle" type="button" class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus-ring rounded-lg text-sm p-2.5 transition-all duration-300">
                         <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                         <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 5.05A1 1 0 003.636 6.464l.707.707a1 1 0 001.414-1.414l-.707-.707zM4 10a1 1 0 01-1-1H2a1 1 0 110-2h1a1 1 0 011 1zm7.464 4.95l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414z"></path></svg>
                     </button>
                     <div class="md:hidden ml-4">
-                        <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 focus:outline-none">
+                        <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 focus-ring transition-colors duration-300">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                             </svg>
@@ -127,73 +372,84 @@
                 </div>
             </div>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800">
-            <a href="#estrategia" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Estratégia</a>
-            <a href="#experiencia" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">A Experiência</a>
-            <a href="#arquitetura" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">Arquitetura</a>
-            <a href="#futuro" class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">O Futuro</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 dark:bg-gray-800/95 backdrop-blur-md">
+            <a href="#estrategia" class="block py-3 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">Estratégia</a>
+            <a href="#experiencia" class="block py-3 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">A Experiência</a>
+            <a href="#arquitetura" class="block py-3 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">Arquitetura</a>
+            <a href="#futuro" class="block py-3 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300">O Futuro</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="py-20 md:py-32 bg-white dark:bg-gray-900">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
-                    Conheça <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-teal-500">Aura</span>
-                </h1>
-                <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400">
-                    Uma parceira inteligente na orquestração do seu tempo, energia e foco. Transcendemos a gestão de tarefas para o ajudar a alcançar os seus objetivos mais significativos, de forma proativa.
-                </p>
-                <div class="mt-10">
-                    <a href="#estrategia" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 transition-transform transform hover:scale-105">
-                        Descubra a Visão
-                    </a>
+        <section id="hero" class="py-20 md:py-32 bg-gradient-to-br from-blue-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-5">
+                <div class="absolute inset-0" style="background-image: radial-gradient(circle at 1px 1px, rgba(59,130,246,0.3) 1px, transparent 0); background-size: 20px 20px;"></div>
+            </div>
+            
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <div class="fade-in-up">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-6">
+                        Conheça <span class="hero-text-gradient text-transparent bg-clip-text">Aura</span>
+                    </h1>
+                    <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+                        Uma parceira inteligente na orquestração do seu tempo, energia e foco. Transcendemos a gestão de tarefas para o ajudar a alcançar os seus objetivos mais significativos, de forma proativa.
+                    </p>
+                    <div class="mt-10">
+                        <a href="#estrategia" class="cta-button inline-block text-white font-bold py-4 px-10 rounded-full focus-ring">
+                            Descubra a Visão
+                        </a>
+                    </div>
                 </div>
+                
+                <!-- Floating Elements -->
+                <div class="absolute top-20 left-10 w-20 h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 pulse-animation"></div>
+                <div class="absolute bottom-20 right-10 w-16 h-16 bg-teal-200 dark:bg-teal-800 rounded-full opacity-20 pulse-animation" style="animation-delay: 1s;"></div>
             </div>
         </section>
 
-        <section id="estrategia" class="py-20">
+        <section id="estrategia" class="py-20 bg-gray-50 dark:bg-gray-800/50">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Fundação Estratégica</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400">Para construir uma plataforma de sucesso, primeiro entendemos o mercado. Analisamos o cenário atual para identificar uma oportunidade única e defensável para a Aura, focando na lacuna de integração e inteligência que frustra os utilizadores de hoje.</p>
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Fundação Estratégica</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">Para construir uma plataforma de sucesso, primeiro entendemos o mercado. Analisamos o cenário atual para identificar uma oportunidade única e defensável para a Aura, focando na lacuna de integração e inteligência que frustra os utilizadores de hoje.</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div class="section-card p-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="section-card p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                         <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Análise Competitiva</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">O mercado de produtividade está saturado, mas fragmentado. Ferramentas como Trello, Asana e Notion são excelentes nos seus nichos, mas forçam o utilizador a ser o "integrador humano" entre sistemas. A Aura surge para preencher essa lacuna.</p>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">O mercado de produtividade está saturado, mas fragmentado. Ferramentas como Trello, Asana e Notion são excelentes nos seus nichos, mas forçam o utilizador a ser o "integrador humano" entre sistemas. A Aura surge para preencher essa lacuna.</p>
                         <div class="chart-container">
                             <canvas id="competitiveChart"></canvas>
                         </div>
                     </div>
                     <div class="space-y-8">
-                        <div class="section-card p-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="section-card p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                              <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-2">A Proposta de Valor da Aura</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-6">A nossa missão é a <span class="font-bold text-blue-500">Orquestração Inteligente de Tempo</span>. Em vez de apenas listar tarefas, ajudamos ativamente a alocar o seu tempo às suas maiores prioridades.</p>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">A nossa missão é a <span class="font-bold text-blue-500">Orquestração Inteligente de Tempo</span>. Em vez de apenas listar tarefas, ajudamos ativamente a alocar o seu tempo às suas maiores prioridades.</p>
                         </div>
-                        <div class="section-card p-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <div class="section-card p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                             <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Os 3 Pilares da Aura</h4>
                             <ul class="space-y-4">
-                                <li class="flex items-start">
-                                    <span class="text-blue-500 mt-1 mr-3">➔</span>
+                                <li class="flex items-start group">
+                                    <span class="text-blue-500 mt-1 mr-3 transition-transform group-hover:scale-110">➔</span>
                                     <div>
                                         <h5 class="font-semibold dark:text-white">Sistema Unificado</h5>
-                                        <p class="text-gray-600 dark:text-gray-400 text-sm">Metas, projetos e tarefas interligados nativamente com o seu calendário.</p>
+                                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Metas, projetos e tarefas interligados nativamente com o seu calendário.</p>
                                     </div>
                                 </li>
-                                <li class="flex items-start">
-                                    <span class="text-blue-500 mt-1 mr-3">➔</span>
+                                <li class="flex items-start group">
+                                    <span class="text-blue-500 mt-1 mr-3 transition-transform group-hover:scale-110">➔</span>
                                     <div>
                                         <h5 class="font-semibold dark:text-white">Orientado por Metodologias</h5>
-                                        <p class="text-gray-600 dark:text-gray-400 text-sm">Integração profunda de GTD e Matriz de Eisenhower no fluxo de trabalho principal.</p>
+                                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Integração profunda de GTD e Matriz de Eisenhower no fluxo de trabalho principal.</p>
                                     </div>
                                 </li>
-                                <li class="flex items-start">
-                                    <span class="text-blue-500 mt-1 mr-3">➔</span>
+                                <li class="flex items-start group">
+                                    <span class="text-blue-500 mt-1 mr-3 transition-transform group-hover:scale-110">➔</span>
                                     <div>
                                         <h5 class="font-semibold dark:text-white">Assistência com IA</h5>
-                                        <p class="text-gray-600 dark:text-gray-400 text-sm">Automação do planeamento e otimização da sua agenda para máxima produtividade.</p>
+                                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Automação do planeamento e otimização da sua agenda para máxima produtividade.</p>
                                     </div>
                                 </li>
                             </ul>
@@ -205,31 +461,31 @@
 
         <section id="experiencia" class="py-20 bg-white dark:bg-gray-900">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Uma Experiência Cativante</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400">O design da Aura é focado em reduzir a carga cognitiva e promover clareza. Cada funcionalidade foi pensada para guiar o utilizador desde a ambição de alto nível até à execução diária, de forma intuitiva e poderosa. Explore como a Aura transforma a organização pessoal.</p>
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Uma Experiência Cativante</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">O design da Aura é focado em reduzir a carga cognitiva e promover clareza. Cada funcionalidade foi pensada para guiar o utilizador desde a ambição de alto nível até à execução diária, de forma intuitiva e poderosa. Explore como a Aura transforma a organização pessoal.</p>
                 </div>
 
                 <div class="space-y-24">
                     <div>
                         <h3 class="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">Fluxo de Trabalho GTD Integrado</h3>
-                        <p class="text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400 mb-16">Guiamos ativamente o utilizador através do método Getting Things Done para transformar a desordem mental em foco. Clique em cada passo para saber mais.</p>
+                        <p class="text-center max-w-3xl mx-auto text-gray-600 dark:text-gray-400 mb-16 leading-relaxed">Guiamos ativamente o utilizador através do método Getting Things Done para transformar a desordem mental em foco. Clique em cada passo para saber mais.</p>
                         
                         <div class="w-full max-w-6xl mx-auto px-4">
                             <div class="flex flex-col items-center">
                                 <!-- Linha Superior -->
                                 <div class="w-full flex flex-col md:flex-row justify-center items-center gap-6 md:gap-8">
-                                    <div id="gtd-step-1" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center">
+                                    <div id="gtd-step-1" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center focus-ring">
                                         <svg class="gtd-icon mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
                                         <h4 class="font-semibold dark:text-white">1. Capturar</h4>
                                     </div>
-                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0">→</div>
-                                    <div id="gtd-step-2" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center">
+                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0 transition-transform hover:scale-110">→</div>
+                                    <div id="gtd-step-2" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center focus-ring">
                                         <svg class="gtd-icon mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" /></svg>
                                         <h4 class="font-semibold dark:text-white">2. Clarificar</h4>
                                     </div>
-                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0">→</div>
-                                    <div id="gtd-step-3" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center">
+                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0 transition-transform hover:scale-110">→</div>
+                                    <div id="gtd-step-3" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center focus-ring">
                                         <svg class="gtd-icon mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.75h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5-13.5h16.5" /></svg>
                                         <h4 class="font-semibold dark:text-white">3. Organizar</h4>
                                     </div>
@@ -237,18 +493,18 @@
                     
                                 <!-- Seta de Conexão -->
                                 <div class="w-full h-20 flex justify-center md:justify-end items-center md:pr-[calc(13rem+2rem)]">
-                                     <div class="text-gray-300 dark:text-gray-600 text-4xl md:hidden">↓</div>
-                                     <div class="text-gray-300 dark:text-gray-600 text-5xl hidden md:block transform -scale-y-100">⤷</div>
+                                     <div class="text-gray-300 dark:text-gray-600 text-4xl md:hidden transition-transform hover:scale-110">↓</div>
+                                     <div class="text-gray-300 dark:text-gray-600 text-5xl hidden md:block transform -scale-y-100 transition-transform hover:scale-110">⤷</div>
                                 </div>
                     
                                 <!-- Linha Inferior (Invertida) -->
                                 <div class="w-full flex flex-col-reverse md:flex-row-reverse justify-center items-center gap-6 md:gap-8">
-                                    <div id="gtd-step-4" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center">
+                                    <div id="gtd-step-4" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center focus-ring">
                                         <svg class="gtd-icon mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0l3.181-3.183m-11.664 0l4.992-4.992m-4.993 0l-3.181 3.183a8.25 8.25 0 000 11.664l3.181 3.183" /></svg>
                                         <h4 class="font-semibold dark:text-white">4. Refletir</h4>
                                     </div>
-                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0">←</div>
-                                    <div id="gtd-step-5" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center">
+                                    <div class="text-gray-300 dark:text-gray-600 text-3xl transform rotate-90 md:rotate-0 transition-transform hover:scale-110">←</div>
+                                    <div id="gtd-step-5" class="gtd-step w-full md:w-52 h-36 flex flex-col justify-center items-center p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer text-center focus-ring">
                                         <svg class="gtd-icon mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 2.44m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /></svg>
                                         <h4 class="font-semibold dark:text-white">5. Engajar</h4>
                                     </div>
@@ -256,33 +512,33 @@
                             </div>
                         </div>
 
-                        <div id="gtd-details" class="mt-16 section-card p-8 text-center min-h-[110px] flex items-center justify-center max-w-3xl mx-auto bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <div id="gtd-details" class="mt-16 section-card p-8 text-center min-h-[110px] flex items-center justify-center max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                             <p class="text-gray-700 dark:text-gray-300">Selecione um passo para ver a sua descrição.</p>
                         </div>
                     </div>
 
                     <div>
                         <h3 class="text-2xl font-bold text-center mb-8 text-gray-800 dark:text-white">Priorização com a Matriz de Eisenhower</h3>
-                         <p class="text-center max-w-2xl mx-auto text-gray-600 dark:text-gray-400 mb-10">Depois de clarificar as suas tarefas, a Aura ajuda a priorizá-las com a Matriz de Eisenhower interativa. Clique num quadrante para entender o seu propósito e como agir.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-1 max-w-4xl mx-auto bg-gray-200 dark:bg-gray-700 p-1 rounded-xl">
-                            <div id="matrix-q1" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 rounded-tl-lg rounded-tr-lg md:rounded-tr-none md:rounded-bl-lg cursor-pointer">
-                                <h4 class="font-bold text-lg text-red-600 dark:text-red-500">Fazer (Urgente e Importante)</h4>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Crises, problemas urgentes, projetos com prazo final. Aparecem no seu "Foco Prioritário".</p>
+                         <p class="text-center max-w-2xl mx-auto text-gray-600 dark:text-gray-400 mb-10 leading-relaxed">Depois de clarificar as suas tarefas, a Aura ajuda a priorizá-las com a Matriz de Eisenhower interativa. Clique num quadrante para entender o seu propósito e como agir.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-w-4xl mx-auto bg-gray-200 dark:bg-gray-700 p-2 rounded-2xl shadow-lg">
+                            <div id="matrix-q1" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 rounded-tl-xl rounded-tr-xl md:rounded-tr-none md:rounded-bl-xl cursor-pointer focus-ring">
+                                <h4 class="font-bold text-lg text-red-600 dark:text-red-500 mb-2">Fazer (Urgente e Importante)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Crises, problemas urgentes, projetos com prazo final. Aparecem no seu "Foco Prioritário".</p>
                             </div>
-                            <div id="matrix-q2" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 md:rounded-tr-lg cursor-pointer">
-                                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-500">Agendar (Importante, Não Urgente)</h4>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Prevenção, planeamento, novas oportunidades. Candidatos ideais para o auto-agendamento por IA.</p>
+                            <div id="matrix-q2" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 md:rounded-tr-xl cursor-pointer focus-ring">
+                                <h4 class="font-bold text-lg text-blue-600 dark:text-blue-500 mb-2">Agendar (Importante, Não Urgente)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Prevenção, planeamento, novas oportunidades. Candidatos ideais para o auto-agendamento por IA.</p>
                             </div>
-                            <div id="matrix-q3" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 md:rounded-bl-lg cursor-pointer">
-                                <h4 class="font-bold text-lg text-yellow-600 dark:text-yellow-500">Delegar (Urgente, Não Importante)</h4>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Interrupções, algumas reuniões, atividades populares. Tarefas que pode passar a outros.</p>
+                            <div id="matrix-q3" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 md:rounded-bl-xl cursor-pointer focus-ring">
+                                <h4 class="font-bold text-lg text-yellow-600 dark:text-yellow-500 mb-2">Delegar (Urgente, Não Importante)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Interrupções, algumas reuniões, atividades populares. Tarefas que pode passar a outros.</p>
                             </div>
-                            <div id="matrix-q4" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 rounded-br-lg rounded-bl-lg md:rounded-bl-none cursor-pointer">
-                                <h4 class="font-bold text-lg text-green-600 dark:text-green-500">Eliminar (Não Urgente, Não Importante)</h4>
-                                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Trivialidades, algumas chamadas, perda de tempo. Itens a serem removidos para ganhar foco.</p>
+                            <div id="matrix-q4" class="matrix-quadrant bg-white dark:bg-gray-800 p-6 rounded-br-xl rounded-bl-xl md:rounded-bl-none cursor-pointer focus-ring">
+                                <h4 class="font-bold text-lg text-green-600 dark:text-green-500 mb-2">Eliminar (Não Urgente, Não Importante)</h4>
+                                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">Trivialidades, algumas chamadas, perda de tempo. Itens a serem removidos para ganhar foco.</p>
                             </div>
                         </div>
-                        <div id="matrix-details" class="mt-8 section-card p-6 text-center min-h-[80px] flex items-center justify-center bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                        <div id="matrix-details" class="mt-8 section-card p-6 text-center min-h-[80px] flex items-center justify-center bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                             <p class="text-gray-700 dark:text-gray-300">Selecione um quadrante para ver a sua descrição detalhada.</p>
                         </div>
                     </div>
@@ -290,42 +546,42 @@
             </div>
         </section>
 
-        <section id="arquitetura" class="py-20">
+        <section id="arquitetura" class="py-20 bg-gray-50 dark:bg-gray-800/50">
              <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Arquitetura Robusta e Escalável</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400">Uma experiência "cativante" assenta sobre uma base técnica sólida. A Aura é construída sobre princípios modernos que garantem segurança, fiabilidade e flexibilidade para o futuro.</p>
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Arquitetura Robusta e Escalável</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">Uma experiência "cativante" assenta sobre uma base técnica sólida. A Aura é construída sobre princípios modernos que garantem segurança, fiabilidade e flexibilidade para o futuro.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="section-card p-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="section-card p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                         <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Sincronização "Offline-First"</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">A Aura funciona perfeitamente, com ou sem internet. As suas alterações são guardadas localmente e sincronizadas de forma transparente quando a ligação é restabelecida, garantindo que a sua aplicação é sempre rápida e fiável.</p>
-                        <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg text-center">
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">A Aura funciona perfeitamente, com ou sem internet. As suas alterações são guardadas localmente e sincronizadas de forma transparente quando a ligação é restabelecida, garantindo que a sua aplicação é sempre rápida e fiável.</p>
+                        <div class="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 p-6 rounded-xl text-center">
                             <div class="flex justify-around items-center">
-                                <div class="text-center">
-                                    <span class="text-4xl">📱</span>
-                                    <p class="font-semibold dark:text-white">Dispositivo</p>
+                                <div class="text-center group">
+                                    <span class="text-4xl transition-transform group-hover:scale-110">📱</span>
+                                    <p class="font-semibold dark:text-white mt-2">Dispositivo</p>
                                     <p class="text-xs text-gray-600 dark:text-gray-400">Base de Dados Local</p>
                                 </div>
-                                <div class="text-2xl text-gray-400 dark:text-gray-500 font-mono"><-></div>
-                                <div class="text-center">
-                                    <span class="text-4xl">☁️</span>
-                                    <p class="font-semibold dark:text-white">Nuvem</p>
+                                <div class="text-2xl text-gray-400 dark:text-gray-500 font-mono transition-transform hover:scale-110"><-></div>
+                                <div class="text-center group">
+                                    <span class="text-4xl transition-transform group-hover:scale-110">☁️</span>
+                                    <p class="font-semibold dark:text-white mt-2">Nuvem</p>
                                     <p class="text-xs text-gray-600 dark:text-gray-400">Servidor Central</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="section-card p-8 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="section-card p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                         <h3 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">Hub de Conexão API-First</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mb-6">Construída com uma filosofia API-First, a Aura integra-se facilmente com as ferramentas que já utiliza (Google Calendar, Outlook) e está preparada para um ecossistema futuro de integrações com Slack, Zapier e mais.</p>
-                         <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">Construída com uma filosofia API-First, a Aura integra-se facilmente com as ferramentas que já utiliza (Google Calendar, Outlook) e está preparada para um ecossistema futuro de integrações com Slack, Zapier e mais.</p>
+                         <div class="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-600 p-6 rounded-xl">
                             <div class="flex items-center justify-center space-x-4">
-                               <span class="text-2xl" title="Google Calendar">📅</span>
-                               <span class="text-2xl" title="Slack">💬</span>
-                               <span class="text-2xl font-bold text-blue-600 dark:text-blue-500">Aura</span>
-                               <span class="text-2xl" title="Zapier">⚡️</span>
-                               <span class="text-2xl" title="GitHub">👨‍💻</span>
+                               <span class="text-2xl transition-transform hover:scale-110" title="Google Calendar">📅</span>
+                               <span class="text-2xl transition-transform hover:scale-110" title="Slack">💬</span>
+                               <span class="text-2xl font-bold text-blue-600 dark:text-blue-500 transition-transform hover:scale-110">Aura</span>
+                               <span class="text-2xl transition-transform hover:scale-110" title="Zapier">⚡️</span>
+                               <span class="text-2xl transition-transform hover:scale-110" title="GitHub">👨‍💻</span>
                             </div>
                         </div>
                     </div>
@@ -335,19 +591,19 @@
 
          <section id="futuro" class="py-20 bg-white dark:bg-gray-900">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Roteiro Futuro e Crescimento</h2>
-                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400">A Aura foi concebida para evoluir. O nosso roteiro inclui a expansão para colaboração em equipa, um co-piloto de IA ainda mais proativo e um modelo de negócio justo que cresce com as suas necessidades.</p>
+                <div class="text-center mb-16 fade-in-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">Roteiro Futuro e Crescimento</h2>
+                    <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-400 leading-relaxed">A Aura foi concebida para evoluir. O nosso roteiro inclui a expansão para colaboração em equipa, um co-piloto de IA ainda mais proativo e um modelo de negócio justo que cresce com as suas necessidades.</p>
                 </div>
 
                 <div class="max-w-4xl mx-auto">
-                    <div class="flex justify-center mb-8 border border-gray-200 dark:border-gray-700 rounded-full p-1 bg-gray-50 dark:bg-gray-800">
-                        <button id="btn-free" class="pricing-btn w-1/3 py-2 px-4 rounded-full text-sm font-semibold transition-colors text-gray-600 dark:text-gray-300">Gratuito</button>
-                        <button id="btn-premium" class="pricing-btn w-1/3 py-2 px-4 rounded-full text-sm font-semibold transition-colors text-gray-600 dark:text-gray-300">Premium</button>
-                        <button id="btn-teams" class="pricing-btn w-1/3 py-2 px-4 rounded-full text-sm font-semibold transition-colors text-gray-600 dark:text-gray-300">Equipas</button>
+                    <div class="flex justify-center mb-8 border border-gray-200 dark:border-gray-700 rounded-full p-1 bg-gray-50 dark:bg-gray-800 shadow-lg">
+                        <button id="btn-free" class="pricing-btn w-1/3 py-3 px-4 rounded-full text-sm font-semibold transition-all duration-300 text-gray-600 dark:text-gray-300 focus-ring">Gratuito</button>
+                        <button id="btn-premium" class="pricing-btn w-1/3 py-3 px-4 rounded-full text-sm font-semibold transition-all duration-300 text-gray-600 dark:text-gray-300 focus-ring">Premium</button>
+                        <button id="btn-teams" class="pricing-btn w-1/3 py-3 px-4 rounded-full text-sm font-semibold transition-all duration-300 text-gray-600 dark:text-gray-300 focus-ring">Equipas</button>
                     </div>
 
-                    <div id="pricing-details" class="section-card p-8 transition-opacity duration-300 bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                    <div id="pricing-details" class="section-card p-8 transition-all duration-500 bg-white dark:bg-gray-800 rounded-2xl shadow-lg">
                     </div>
                 </div>
             </div>
@@ -355,30 +611,53 @@
     </main>
 
     <footer class="bg-gray-800 dark:bg-black/20 text-white">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-            <p class="text-gray-300 dark:text-gray-400">&copy; 2025 Aura. Concebido para uma vida com mais foco e propósito.</p>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+            <div class="mb-6">
+                <span class="text-3xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 bg-clip-text text-transparent">Aura</span>
+            </div>
+            <p class="text-gray-300 dark:text-gray-400 mb-4">&copy; 2025 Aura. Concebido para uma vida com mais foco e propósito.</p>
+            <div class="flex justify-center space-x-6 text-sm text-gray-400">
+                <a href="#" class="hover:text-white transition-colors duration-300">Privacidade</a>
+                <a href="#" class="hover:text-white transition-colors duration-300">Termos</a>
+                <a href="#" class="hover:text-white transition-colors duration-300">Contacto</a>
+            </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             
-            // Lógica do Menu Móvel
+            // Scroll Progress Indicator
+            const scrollProgress = document.querySelector('.scroll-progress');
+            
+            function updateScrollProgress() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.body.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            }
+            
+            window.addEventListener('scroll', updateScrollProgress);
+            
+            // Enhanced Mobile Menu with Animation
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
+                // Add rotation animation to hamburger icon
+                const icon = mobileMenuButton.querySelector('svg');
+                icon.style.transform = mobileMenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
             });
             
-            // Lógica de Navegação e Scrollspy
+            // Enhanced Navigation and Scrollspy with Smooth Scrolling
             const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
             const sections = document.querySelectorAll('main section');
 
             const observerOptions = {
                 root: null,
-                rootMargin: '0px',
-                threshold: 0.4
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0.1
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
@@ -400,14 +679,27 @@
             });
             
             navLinks.forEach(link => {
-                link.addEventListener('click', () => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+                    
+                    if (targetSection) {
+                        targetSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    
                     if(!mobileMenu.classList.contains('hidden')) {
                        mobileMenu.classList.add('hidden');
+                       const icon = mobileMenuButton.querySelector('svg');
+                       icon.style.transform = 'rotate(0deg)';
                     }
                 });
             });
 
-            // Lógica do Gráfico Competitivo (Chart.js)
+            // Enhanced Competitive Chart with Better Styling
             const competitiveCtx = document.getElementById('competitiveChart').getContext('2d');
             const competitiveChart = new Chart(competitiveCtx, {
                 type: 'radar',
@@ -416,57 +708,107 @@
                     datasets: [{
                         label: 'Aura',
                         data: [5, 5, 5, 3, 4],
-                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
                         borderColor: 'rgba(59, 130, 246, 1)',
                         pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        borderWidth: 3,
                     }, {
                         label: 'Notion',
                         data: [2, 1, 1, 5, 3],
-                         backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                        backgroundColor: 'rgba(168, 85, 247, 0.15)',
                         borderColor: 'rgba(168, 85, 247, 1)',
-                         pointBackgroundColor: 'rgba(168, 85, 247, 1)',
+                        pointBackgroundColor: 'rgba(168, 85, 247, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        borderWidth: 2,
                     }, {
                         label: 'Asana',
                         data: [3, 2, 1, 3, 5],
-                         backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.15)',
                         borderColor: 'rgba(239, 68, 68, 1)',
                         pointBackgroundColor: 'rgba(239, 68, 68, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        borderWidth: 2,
                     },
                     {
                         label: 'Motion',
                         data: [2, 2, 5, 2, 4],
-                         backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        backgroundColor: 'rgba(16, 185, 129, 0.15)',
                         borderColor: 'rgba(16, 185, 129, 1)',
                         pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        borderWidth: 2,
                     }]
                 },
                 options: {
                     maintainAspectRatio: false,
                     responsive: true,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            angleLines: { 
+                                color: 'rgba(0, 0, 0, 0.1)',
+                                lineWidth: 1
+                            },
+                            grid: { 
+                                color: 'rgba(0, 0, 0, 0.1)',
+                                lineWidth: 1
+                            },
                             pointLabels: { 
-                                font: { size: 12 },
+                                font: { 
+                                    size: 12,
+                                    weight: '500'
+                                },
                                 color: '#4A4A4A'
                             },
                             suggestedMin: 0,
-                            suggestedMax: 5
+                            suggestedMax: 5,
+                            ticks: {
+                                display: false
+                            }
                         }
                     },
                     plugins: {
                         legend: {
                             position: 'top',
                             labels: {
-                                color: '#4A4A4A'
+                                color: '#4A4A4A',
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                },
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
                             }
                         },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: 'rgba(59, 130, 246, 0.5)',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: true
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 4,
+                            hoverRadius: 6
+                        }
                     }
                 }
             });
 
-            // Lógica do fluxo GTD
+            // Enhanced GTD Flow with Better Animations
             const gtdSteps = document.querySelectorAll('.gtd-step');
             const gtdDetails = document.getElementById('gtd-details');
             const gtdContent = {
@@ -482,11 +824,19 @@
                     gtdSteps.forEach(s => s.classList.remove('active'));
                     step.classList.add('active');
                     const content = gtdContent[step.id];
-                    gtdDetails.innerHTML = `<p class="text-gray-600 dark:text-gray-400">${content.text}</p>`;
+                    
+                    // Add loading animation
+                    gtdDetails.style.opacity = '0.5';
+                    gtdDetails.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+                    
+                    setTimeout(() => {
+                        gtdDetails.innerHTML = `<p class="text-gray-600 dark:text-gray-400 leading-relaxed">${content.text}</p>`;
+                        gtdDetails.style.opacity = '1';
+                    }, 300);
                 });
             });
             
-            // Lógica da Matriz de Eisenhower
+            // Enhanced Matrix with Better Interactions
             const matrixQuadrants = document.querySelectorAll('.matrix-quadrant');
             const matrixDetails = document.getElementById('matrix-details');
             const matrixContent = {
@@ -501,11 +851,17 @@
                     matrixQuadrants.forEach(q => q.classList.remove('active'));
                     quadrant.classList.add('active');
                     const content = matrixContent[quadrant.id];
-                    matrixDetails.innerHTML = `<h4 class="font-bold text-lg text-gray-800 dark:text-white">${content.title}</h4><p class="mt-2 text-gray-600 dark:text-gray-400">${content.text}</p>`;
+                    
+                    // Add smooth transition
+                    matrixDetails.style.opacity = '0.5';
+                    setTimeout(() => {
+                        matrixDetails.innerHTML = `<div class="text-center"><h4 class="font-bold text-lg text-gray-800 dark:text-white mb-3">${content.title}</h4><p class="text-gray-600 dark:text-gray-400 leading-relaxed">${content.text}</p></div>`;
+                        matrixDetails.style.opacity = '1';
+                    }, 200);
                 });
             });
 
-            // Lógica dos Planos de Preços
+            // Enhanced Pricing with Better Animations
             const pricingBtns = document.querySelectorAll('.pricing-btn');
             const pricingDetailsContainer = document.getElementById('pricing-details');
             const pricingContent = {
@@ -513,19 +869,22 @@
                     title: 'Plano Gratuito',
                     desc: 'Ideal para indivíduos que querem organizar a sua vida com metodologias comprovadas.',
                     price: '€0',
-                    features: ['Fluxos de trabalho GTD e Eisenhower', 'Até 5 projetos ativos', 'Integração com 1 calendário']
+                    features: ['Fluxos de trabalho GTD e Eisenhower', 'Até 5 projetos ativos', 'Integração com 1 calendário'],
+                    highlight: false
                 },
                 'btn-premium': {
                     title: 'Plano Premium',
                     desc: 'Para profissionais e utilizadores avançados que querem automatizar e otimizar o seu tempo.',
                     price: '€8<span class="text-sm font-normal">/mês</span>',
-                    features: ['Tudo do plano Gratuito, mais:', '<strong>Co-Piloto de IA (auto-agendamento)</strong>', '<strong>Motor de Revisão Semanal Guiada</strong>', 'Projetos e metas ilimitados', 'Integrações avançadas (Zapier)']
+                    features: ['Tudo do plano Gratuito, mais:', '<strong>Co-Piloto de IA (auto-agendamento)</strong>', '<strong>Motor de Revisão Semanal Guiada</strong>', 'Projetos e metas ilimitados', 'Integrações avançadas (Zapier)'],
+                    highlight: true
                 },
                 'btn-teams': {
                     title: 'Plano de Equipas',
                     desc: 'Para equipas e organizações que precisam de colaborar e alinhar os seus objetivos.',
                     price: '€15<span class="text-sm font-normal">/utilizador/mês</span>',
-                    features: ['Tudo do plano Premium, mais:', 'Espaços de Trabalho de Equipa', 'Projetos partilhados e delegação', 'Painéis de controlo de equipa']
+                    features: ['Tudo do plano Premium, mais:', 'Espaços de Trabalho de Equipa', 'Projetos partilhados e delegação', 'Painéis de controlo de equipa'],
+                    highlight: false
                 }
             };
             
@@ -538,23 +897,34 @@
                 });
                 
                 const content = pricingContent[planId];
-                pricingDetailsContainer.style.opacity = 0;
+                pricingDetailsContainer.style.opacity = '0';
+                pricingDetailsContainer.style.transform = 'translateY(20px)';
                 
                 setTimeout(() => {
+                    const highlightClass = content.highlight ? 'border-2 border-blue-500 relative' : '';
+                    const badge = content.highlight ? '<div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold">Mais Popular</div>' : '';
+                    
                     pricingDetailsContainer.innerHTML = `
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold text-gray-800 dark:text-white">${content.title}</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mt-2">${content.desc}</p>
-                            <div class="my-6">
+                        <div class="text-center ${highlightClass}">
+                            ${badge}
+                            <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">${content.title}</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">${content.desc}</p>
+                            <div class="mb-8">
                                 <span class="text-5xl font-extrabold text-gray-900 dark:text-white">${content.price}</span>
                             </div>
-                            <ul class="space-y-3 text-left max-w-sm mx-auto">
-                                ${content.features.map(f => `<li class="flex items-center"><span class="text-green-500 mr-2">✔</span><span class="text-gray-700 dark:text-gray-300">${f}</span></li>`).join('')}
+                            <ul class="space-y-4 text-left max-w-sm mx-auto">
+                                ${content.features.map(f => `<li class="flex items-start"><span class="text-green-500 mr-3 mt-1 flex-shrink-0">✔</span><span class="text-gray-700 dark:text-gray-300 leading-relaxed">${f}</span></li>`).join('')}
                             </ul>
+                            <div class="mt-8">
+                                <button class="cta-button text-white font-semibold py-3 px-8 rounded-full focus-ring">
+                                    ${content.price === '€0' ? 'Começar Grátis' : 'Escolher Plano'}
+                                </button>
+                            </div>
                         </div>
                     `;
-                    pricingDetailsContainer.style.opacity = 1;
-                }, 150);
+                    pricingDetailsContainer.style.opacity = '1';
+                    pricingDetailsContainer.style.transform = 'translateY(0)';
+                }, 200);
             }
 
             pricingBtns.forEach(btn => {
@@ -565,31 +935,33 @@
 
             updatePricingView('btn-premium');
 
-            // --- LÓGICA DO MODO ESCURO ---
+            // Enhanced Theme Toggle with Better Animations
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-            // Função para atualizar o tema do gráfico
             function updateChartTheme() {
                 const isDarkMode = document.documentElement.classList.contains('dark');
                 const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
-                const labelColor = isDarkMode ? '#D1D5DB' : '#4A4A4A'; // gray-300 or gray-600
+                const labelColor = isDarkMode ? '#D1D5DB' : '#4A4A4A';
 
                 competitiveChart.options.scales.r.angleLines.color = gridColor;
                 competitiveChart.options.scales.r.grid.color = gridColor;
                 competitiveChart.options.scales.r.pointLabels.color = labelColor;
                 competitiveChart.options.plugins.legend.labels.color = labelColor;
-                competitiveChart.update();
+                competitiveChart.update('none'); // Disable animation for theme change
             }
 
-            // Função para alternar o tema e os ícones
             function toggleTheme() {
-                // Alterna os ícones
+                // Add rotation animation to theme toggle button
+                themeToggleBtn.style.transform = 'rotate(180deg)';
+                setTimeout(() => {
+                    themeToggleBtn.style.transform = 'rotate(0deg)';
+                }, 300);
+
                 themeToggleDarkIcon.classList.toggle('hidden');
                 themeToggleLightIcon.classList.toggle('hidden');
 
-                // Se o tema foi definido via localStorage, use-o
                 if (localStorage.getItem('theme')) {
                     if (localStorage.getItem('theme') === 'light') {
                         document.documentElement.classList.add('dark');
@@ -598,7 +970,6 @@
                         document.documentElement.classList.remove('dark');
                         localStorage.setItem('theme', 'light');
                     }
-                // Caso contrário, verifique a preferência do sistema
                 } else {
                     if (document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.remove('dark');
@@ -608,19 +979,51 @@
                         localStorage.setItem('theme', 'dark');
                     }
                 }
-                updateChartTheme();
+                
+                setTimeout(updateChartTheme, 300); // Update chart after theme transition
             }
 
-            // Define o estado inicial dos ícones e do gráfico
+            // Initialize theme icons and chart
             if (document.documentElement.classList.contains('dark')) {
                 themeToggleLightIcon.classList.remove('hidden');
             } else {
                 themeToggleDarkIcon.classList.remove('hidden');
             }
-            updateChartTheme(); // Atualiza o gráfico no carregamento da página
-
-            // Adiciona o evento de clique ao botão
+            
+            // Add transition to theme toggle button
+            themeToggleBtn.style.transition = 'transform 0.3s ease';
+            
+            updateChartTheme();
             themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // Intersection Observer for Fade-in Animations
+            const fadeElements = document.querySelectorAll('.fade-in-up');
+            const fadeObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                fadeObserver.observe(el);
+            });
+
+            // Keyboard Navigation Support
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+
+            document.addEventListener('mousedown', () => {
+                document.body.classList.remove('keyboard-navigation');
+            });
         });
     </script>
 </body>
