@@ -1,0 +1,13 @@
+{
+  "name": "aura-landing-page",
+  "version": "1.0.0",
+  "description": "Aura - O Futuro da Organização Pessoal",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python3 -m http.server 3000",
+    "start": "python3 -m http.server 3000"
+  },
+  "keywords": ["productivity", "organization", "gtd", "eisenhower"],
+  "author": "",
+  "license": "MIT"
+}
